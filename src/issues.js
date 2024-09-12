@@ -67,7 +67,7 @@ export const issues = [
         issue: "Decriminalizing drugs",
         importance: 5,
         notes: 'With the opioid crisis continuing to kill too many British Columbians, parties are considering different solutions to the issue.',
-        NDP: { stance: "unknown", explanation: "Decriminalized drugs, future plans unclear", source: "" },
+        NDP: { stance: "support", explanation: "Decriminalized drugs, future plans unclear", source: "" },
         Conservative: { stance: "oppose", explanation: 'Wants to recriminalize hard drugs', source: "https://www.conservativebc.ca/ideas" },
         Green: { stance: "support", explanation: "Wants to scale up safe supply; supports decriminalization", source: "https://www.bcgreens.ca/opioid_crisis" }
     },
