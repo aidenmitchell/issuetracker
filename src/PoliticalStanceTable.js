@@ -1,40 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Check, X, Minus, HelpCircle, ChevronDown, ChevronUp } from 'lucide-react';
-
-const data = [
-  {
-    issue: "Tax Reform",
-    importance: 3,
-    notes: "Tax reform is a complex issue involving changes to the tax code that can affect individuals, businesses, and the overall economy. It often includes debates on progressive vs. flat tax rates, corporate tax levels, and tax incentives.",
-    NDP: { stance: "support", explanation: "Supports progressive taxation", source: "https://www.ndp.ca/tax-policy" },
-    Conservative: { stance: "oppose", explanation: "Favors tax cuts", source: "https://www.conservative.ca/tax-policy" },
-    Green: { stance: "mixed", explanation: "Supports eco-friendly tax policies", source: "https://www.greenparty.ca/tax-policy" }
-  },
-  {
-    issue: "Healthcare",
-    importance: 5,
-    notes: "Healthcare is a critical issue in Canada, centering around maintaining and improving the public healthcare system. Key topics include wait times, drug coverage, and the balance between public and private healthcare options.",
-    NDP: { stance: "mixed", explanation: "Supports universal pharmacare", source: "https://www.ndp.ca/healthcare" },
-    Conservative: { stance: "support", explanation: "Advocates for private options", source: "https://www.conservative.ca/healthcare" },
-    Green: { stance: "unknown", explanation: "Policy under review", source: "https://www.greenparty.ca/healthcare" }
-  },
-  {
-    issue: "Education",
-    importance: 4,
-    notes: "Education policy in Canada covers a range of topics from early childhood education to post-secondary funding. Major debates include curriculum standards, teacher pay, and the role of private education.",
-    NDP: { stance: "oppose", explanation: "Against privatization", source: "https://www.ndp.ca/education" },
-    Conservative: { stance: "mixed", explanation: "Supports both public and private", source: "https://www.conservative.ca/education" },
-    Green: { stance: "support", explanation: "Advocates for increased funding", source: "https://www.greenparty.ca/education" }
-  },
-  {
-    issue: "Climate Change",
-    importance: 5,
-    notes: "Climate change is a global issue with significant local impacts. In Canada, it involves discussions on carbon pricing, renewable energy transition, and balancing environmental protection with economic growth.",
-    NDP: { stance: "support", explanation: "Supports carbon pricing", source: "https://www.ndp.ca/climate" },
-    Conservative: { stance: "oppose", explanation: "Against carbon tax", source: "https://www.conservative.ca/climate" },
-    Green: { stance: "support", explanation: "Advocates for green energy", source: "https://www.greenparty.ca/climate" }
-  },
-];
+import { issues } from './issues';
 
 const PartyIcon = ({ party }) => {
   const icons = {
@@ -71,9 +37,9 @@ const PartyIcon = ({ party }) => {
 };
 
 const partyInfo = {
-  NDP: { color: '#E17C0D', icon: <PartyIcon party="NDP" /> },
-  Conservative: { color: '#0101CC', icon: <PartyIcon party="Conservative" /> },
-  Green: { color: '#269B26', icon: <PartyIcon party="Green" /> }
+  NDP: { color: '#E17C0D', darkModeColor: '#E17C0D', icon: <PartyIcon party="NDP" /> },
+  Conservative: { color: '#0101CC', darkModeColor: '#4B4BFF', icon: <PartyIcon party="Conservative" /> },
+  Green: { color: '#269B26', darkModeColor: '#269B26', icon: <PartyIcon party="Green" /> }
 };
 
 const StanceIcon = ({ stance }) => {
@@ -100,7 +66,7 @@ const ImportanceBar = ({ importance }) => {
       {[...Array(5)].map((_, i) => (
         <div 
           key={i} 
-          className={`w-2 h-3 ${i < importance ? getColor(importance) : 'bg-gray-300'}`}
+          className={`w-2 h-3 ${i < importance ? getColor(importance) : 'bg-gray-300 dark:bg-gray-600'}`}
         />
       ))}
       <div className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
@@ -127,18 +93,18 @@ const ExpandedRow = ({ rowData, isExpanded }) => {
       <td colSpan="4" className="p-0">
         <div 
           style={{ height: `${height}px` }}
-          className="transition-all duration-300 ease-in-out bg-gray-100 overflow-hidden"
+          className="transition-all duration-300 ease-in-out bg-gray-100 dark:bg-gray-800 overflow-hidden"
         >
           <div ref={contentRef} className="px-4 py-2">
-            <p className="mb-4 text-gray-700">{rowData.notes}</p>
+            <p className="mb-4 text-gray-700 dark:text-gray-300">{rowData.notes}</p>
             <div className={`grid grid-cols-3 gap-4 transition-opacity duration-300 ${isExpanded ? 'opacity-100' : 'opacity-0'}`}>
               {Object.entries(partyInfo).map(([party, info]) => (
                 <div key={party} className="space-y-2">
-                  <h3 style={{ color: partyInfo[party].color }} className="font-semibold flex items-center">
+                  <h3 className="font-semibold flex items-center" style={{ color: `var(--party-color-${party})` }}>
                     <span className="mr-2">{info.icon}</span>
                     {party}
                   </h3>
-                  <p>{rowData[party].explanation}</p>
+                  <p className="dark:text-gray-300">{rowData[party].explanation}</p>
                   <a href={rowData[party].source} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
                     Source
                   </a>
@@ -154,6 +120,17 @@ const ExpandedRow = ({ rowData, isExpanded }) => {
 
 const PoliticalStanceTable = () => {
   const [expandedRow, setExpandedRow] = useState(null);
+  const [sortedIssues, setSortedIssues] = useState([]);
+
+  useEffect(() => {
+    const sorted = [...issues].sort((a, b) => {
+      if (b.importance !== a.importance) {
+        return b.importance - a.importance;
+      }
+      return a.issue.localeCompare(b.issue);
+    });
+    setSortedIssues(sorted);
+  }, []);
 
   const toggleRow = (index) => {
     setExpandedRow(prevIndex => prevIndex === index ? null : index);
@@ -161,12 +138,26 @@ const PoliticalStanceTable = () => {
 
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full bg-white">
+      <style jsx global>{`
+        :root {
+          --party-color-NDP: ${partyInfo.NDP.color};
+          --party-color-Conservative: ${partyInfo.Conservative.color};
+          --party-color-Green: ${partyInfo.Green.color};
+        }
+        @media (prefers-color-scheme: dark) {
+          :root {
+            --party-color-NDP: ${partyInfo.NDP.darkModeColor};
+            --party-color-Conservative: ${partyInfo.Conservative.darkModeColor};
+            --party-color-Green: ${partyInfo.Green.darkModeColor};
+          }
+        }
+      `}</style>
+      <table className="min-w-full bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
         <thead>
-          <tr className="bg-gray-100">
+          <tr className="bg-gray-100 dark:bg-gray-800">
             <th className="px-4 py-2 text-left">Issue</th>
             {Object.entries(partyInfo).map(([party, info]) => (
-            <th key={party} className="px-4 py-2 text-left" style={{ color: info.color }}>
+            <th key={party} className="px-4 py-2 text-left" style={{ color: `var(--party-color-${party})` }}>
               <div className="flex items-center">
                 <span className="mr-2">{info.icon}</span>
                 {party}
@@ -176,10 +167,10 @@ const PoliticalStanceTable = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((row, index) => (
+          {sortedIssues.map((row, index) => (
             <React.Fragment key={index}>
               <tr 
-                className={`${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'} cursor-pointer hover:bg-gray-200`}
+                className={`${index % 2 === 0 ? 'bg-gray-50 dark:bg-gray-800' : 'bg-white dark:bg-gray-900'} cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700`}
                 onClick={() => toggleRow(index)}
               >
                 <td className="px-4 py-2">
