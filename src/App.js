@@ -8,6 +8,7 @@ function App() {
       <p className="dark:text-gray-300">Tracking issues that matter most to British Columbians, and parties views on the issues.</p>
       <p className="mb-4 italic dark:text-gray-400">Best viewed in landscape on mobile devices. | "2024 importance" is a subjective judgement made by the author.</p>
       <PoliticalStanceTable />
+      <footer className="mt-2">Source code available at <a href='https://github.com/aidenmitchell/issuetracker' className='underline'>https://github.com/aidenmitchell/issuetracker</a>. Contributions appreciated!</footer>
     </div>
   );
 }
