@@ -37,9 +37,9 @@ const PartyIcon = ({ party }) => {
 };
 
 const partyInfo = {
-  NDP: { color: '#E17C0D', darkModeColor: '#E17C0D', icon: <PartyIcon party="NDP" /> },
-  Conservative: { color: '#0101CC', darkModeColor: '#4B4BFF', icon: <PartyIcon party="Conservative" /> },
-  Green: { color: '#269B26', darkModeColor: '#269B26', icon: <PartyIcon party="Green" /> }
+  NDP: { color: '#E17C0D', darkModeColor: '#e8e6e3', icon: <PartyIcon party="NDP" /> },
+  Conservative: { color: '#0101CC', darkModeColor: '#e8e6e3', icon: <PartyIcon party="Conservative" /> },
+  Green: { color: '#269B26', darkModeColor: '#e8e6e3', icon: <PartyIcon party="Green" /> }
 };
 
 const StanceIcon = ({ stance }) => {
