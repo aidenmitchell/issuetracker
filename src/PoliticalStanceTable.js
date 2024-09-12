@@ -70,7 +70,7 @@ const ImportanceBar = ({ importance }) => {
         />
       ))}
       <div className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
-        2024 importance: {importance}/5
+        Election importance: {importance}/5
       </div>
     </div>
   );
