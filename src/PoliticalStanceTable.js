@@ -43,16 +43,29 @@ const partyInfo = {
 };
 
 const StanceIcon = ({ stance }) => {
-  switch (stance) {
-    case 'support':
-      return <Check className="text-green-500" />;
-    case 'oppose':
-      return <X className="text-red-500" />;
-    case 'mixed':
-      return <Minus className="text-yellow-500" />;
-    default:
-      return <HelpCircle className="text-gray-500" />;
-  }
+  const getIconAndTooltip = () => {
+    switch (stance) {
+      case 'support':
+        return { icon: <Check className="text-green-500" />, tooltip: "Supports" };
+      case 'oppose':
+        return { icon: <X className="text-red-500" />, tooltip: "Opposes" };
+      case 'mixed':
+        return { icon: <Minus className="text-yellow-500" />, tooltip: "Mixed" };
+      default:
+        return { icon: <HelpCircle className="text-gray-500" />, tooltip: "Unknown" };
+    }
+  };
+
+  const { icon, tooltip } = getIconAndTooltip();
+
+  return (
+    <div className="relative inline-block">
+      {icon}
+      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-1 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
+        {tooltip}
+      </div>
+    </div>
+  );
 };
 
 const ImportanceBar = ({ importance }) => {
@@ -181,7 +194,7 @@ const PoliticalStanceTable = () => {
                   </div>
                 </td>
                 {Object.keys(partyInfo).map(party => (
-                  <td key={party} className="px-4 py-2 text-center">
+                  <td key={party} className="px-4 py-2 text-left group">
                     <StanceIcon stance={row[party].stance} />
                   </td>
                 ))}
