@@ -8,7 +8,8 @@ function App() {
       <p className="dark:text-gray-300">Tracking issues that matter most to British Columbians, and parties views on the issues.</p>
       <p className="mb-4 italic dark:text-gray-400">Best viewed in landscape on mobile devices. | "2024 importance" is a subjective judgement made by the author.</p>
       <PoliticalStanceTable />
-      <footer className="mt-2">Source code available at <a href='https://github.com/aidenmitchell/issuetracker' className='underline'>https://github.com/aidenmitchell/issuetracker</a>. Contributions appreciated!</footer>
+      <p className="mt-2 dark:text-gray-300">Source code available at <a href='https://github.com/aidenmitchell/issuetracker' className='underline'>https://github.com/aidenmitchell/issuetracker</a>. Contributions appreciated!</p>
+      <p className="mt-2 dark:text-gray-300">Favicon credit: <a href='https://commons.wikimedia.org/wiki/File:%22Spirit_of_BC%22_flag.svg' className='underline'>Spirit of BC flag.svg</a> by Yagya Parihar, used under CC BY-SA 4.0 / Transparent background expanded from original</p>
     </div>
   );
 }
