@@ -118,9 +118,20 @@ const ExpandedRow = ({ rowData, isExpanded }) => {
                     {party}
                   </h3>
                   <p className="dark:text-gray-300">{rowData[party].explanation}</p>
-                  <a href={rowData[party].source} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-                    Source
-                  </a>
+                  {rowData[party].source ? (
+                    <a href={rowData[party].source} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+                      Source
+                    </a>
+                  ) : (
+                    <a 
+                      href="https://github.com/aidenmitchell/issuetracker/issues/new" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="text-blue-500 hover:underline"
+                    >
+                      Suggest info
+                    </a>
+                  )}
                 </div>
               ))}
             </div>
