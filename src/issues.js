@@ -36,7 +36,15 @@ export const issues = [
       importance: 4,
       notes: "",
       NDP: { stance: "support", explanation: "Wants to get to net-zero", source: "https://www.ndp.ca/climate-action" },
-      Conservative: { stance: "oppose", explanation: "Against carbon tax, wants to expand LNG and build more pipelines", source: "https://www.conservativebc.ca/ideas" },
+      Conservative: { stance: "oppose", explanation: "Wants to expand LNG and build more pipelines", source: "https://www.conservativebc.ca/ideas" },
+      Green: { stance: "support", explanation: "It's the Green party", source: "https://bcgreens2024.ca/" }
+    },
+    {
+      issue: "Carbon tax",
+      importance: 3,
+      notes: "",
+      NDP: { stance: "oppose", explanation: "Will scrap the carbon tax if the federal government scraps their tax", source: "https://vancouversun.com/news/bc-scrap-carbon-tax-federal-government-drops-requirement" },
+      Conservative: { stance: "oppose", explanation: "Fully against carbon tax", source: "https://www.conservativebc.ca/ideas" },
       Green: { stance: "support", explanation: "It's the Green party", source: "https://bcgreens2024.ca/" }
     },
     {
